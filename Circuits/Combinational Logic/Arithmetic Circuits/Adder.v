@@ -9,6 +9,8 @@ module top_module (
     fadder inst1 (x[1], y[1] , cout[0], sum[1], cout[1]);
     fadder inst2 (x[2], y[2] , cout[1], sum[2], cout[2]);
     fadder inst3 (x[3], y[3] , cout[2], sum[3], sum[4]);
+    
+    //assign sum=x+y; 
 endmodule
 
 
