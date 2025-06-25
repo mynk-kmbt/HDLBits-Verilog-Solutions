@@ -4,7 +4,7 @@ module top_module (
     input [7:0] d,
     output [7:0] q
 );
-    always @(posedge clk, posedge reset)
+    always @(posedge clk, posedge areset)
         if (areset)
             q<=8'b0;
         else
