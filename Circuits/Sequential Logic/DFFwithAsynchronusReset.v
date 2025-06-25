@@ -6,7 +6,7 @@ module top_module (
 );
     always @(posedge clk, posedge reset)
         if (areset)
-            q<=8'b0';
+            q<=8'b0;
         else
             q<=d;
 
