@@ -1,64 +1,18 @@
 module top_module(
     input clk,
-    input reset,
+    input areset,  // async active-high reset to zero
+    input load,
     input ena,
-    output pm,
-    output [7:0] hh,
-    output [7:0] mm,
-    output [7:0] ss); 
+    input [3:0] data,
+    output reg [3:0] q); 
     
-    // for second
-    always@(posedge clk)
-        if (reset)
-            ss<=8'b0;
-    	else
-            if (ena)
-                if (ss==8'h59)
-                    ss<=8'b0;
-    			else if (ss[3:0]==4'd9)
-                    ss<=ss+8'd7;
-    			else
-                    ss<=ss+1'b1;
-    	else
-            ss<=ss;
-    
-     // for minute
-    always@(posedge clk)
-        if (reset)
-            mm<=8'h0;
-    	else
-            if (ena& (ss==8'h59) )
-                if (mm==8'h59)
-                    mm<=8'b0;
-    			else if (mm[3:0]==4'd9)
-                    mm<=mm+8'd7;
-    			else 
-                    mm<=mm+1'b1;
-    	else
-            mm<=mm;
-    
-    // for hour
-    always@(posedge clk)
-        if (reset)
-            hh<=8'h12;
-    	else
-            if (ena& (ss==8'h59)&(mm==8'h59) )
-                if (hh==8'h12)
-                    hh<=8'h1;
-    			else if (hh[3:0]==4'd9)
-                    hh<=hh+8'd7;
-    			else 
-                    hh<=hh+1'b1;
-    	else
-            hh<=hh;
-    
-    always@(posedge clk)
-        if (reset)
-            pm<=1'b0;
-    	else
-            if (ena & ({hh,mm,ss}=={8'h11,8'h59,8'h59}))
-                pm<=~pm;
-    		else
-                pm<=pm;
-    
+    always @(posedge clk, posedge areset)
+        if (areset)
+            q<=4'd0;
+    	else if (load)
+        	q<=data;
+    	else if (ena)
+            q<=q[3:1]; //RHS is 3bits and LHS is 4 bits , 3bits of RHS will be assigned to lower 3 bits of RHS and leftover bits will be assigned 0
+		else
+            q<=q;
 endmodule
