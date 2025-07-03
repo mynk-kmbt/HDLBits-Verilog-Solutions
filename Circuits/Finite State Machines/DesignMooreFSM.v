@@ -10,6 +10,14 @@ module top_module (
     
     parameter [2:0] A=3'd0, B=3'd1, C=3'd2, D=3'd3, E=3'd4, F=3'd5;
     
+    //defining states
+    // A= below S1
+    // B= b/w s1 and s2 , s.t. current_state>prev_state, dfr=0
+    // C= b/w s2 and s3 , s.t. current_state>prev_state, dfr=0
+    // D= b/w s1 and s2 , s.t. current_state<prev_state, dfr=1
+    // E= above s3 , s.t. current_state>prev_state, dfr=0
+    // F= b/w s2 and s3 , s.t. current_state<prev_state, dfr=1
+    
     reg [2:0] state, next_state;
     
     always @(*)
