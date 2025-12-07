@@ -3,13 +3,18 @@ module top_module(
     input cin,
     output [99:0] cout,
     output [99:0] sum );
+
+    adder inst0 (a[0],b[0],cin,sum[0],cout[0]);
+    genvar i ;
+    generate
+        for( i=1; i<100; i++ ) 
+            begin : ADDER
+            adder inst (a[i],b[i],cout[i-1],sum[i],cout[i]);
+            end
+        endgenerate
     
-    integer i;
-    always @ (*)
-        begin
-            {cout[0],sum[0]} = a[0]+b[0] + cin; 
- 	       for (i=1; i<100; i=i+1)
-           {cout[i],sum[i]} = a[i] + b[i] + cout[i-1];
-        end
-    
+endmodule
+
+module adder(input a,b,cin, output sum, cout);
+    assign {cout,sum}=a+b+cin;
 endmodule
